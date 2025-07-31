@@ -1,0 +1,190 @@
+{
+    "$schema": "https://schema.freqtrade.io/schema.json",
+    "trading_mode": "spot",
+    "max_open_trades": 3,
+    "stake_currency": "USDT",
+    "stake_amount": "unlimited",
+    "stake_amount_unlimited_max": 1000,
+    "tradable_balance_ratio": 0.95,
+    "fiat_display_currency": "USD",
+    "dry_run": true,
+    "dry_run_wallet": 10000,
+    "timeframe": "5m",
+    "cancel_open_orders_on_exit": true,
+    "unfilledtimeout": {
+        "entry": 10,
+        "exit": 30,
+        "exit_timeout_count": 3,
+        "unit": "minutes"
+    },
+    "exchange": {
+        "name": "binance",
+        "key": "",
+        "secret": "",
+        "ccxt_config": {},
+        "ccxt_async_config": {},
+        "pair_whitelist": [
+            "BTC/USDT",
+            "ETH/USDT",
+            "SOL/USDT",
+            "XRP/USDT",
+            "ADA/USDT",
+            "AVAX/USDT"
+        ],
+        "pair_blacklist": [
+            "BNB/USDT",
+            "LUNA/USDT",
+            "UST/USDT"
+        ]
+    },
+    "entry_pricing": {
+        "price_side": "other",
+        "use_order_book": true,
+        "order_book_top": 1,
+        "price_last_balance": 0.0,
+        "check_depth_of_market": {
+            "enabled": false,
+            "bids_to_ask_delta": 1
+        }
+    },
+    "exit_pricing": {
+        "price_side": "other",
+        "use_order_book": true,
+        "order_book_top": 1
+    },
+    "order_types": {
+        "entry": "market",
+        "exit": "market",
+        "emergency_exit": "market",
+        "force_exit": "market",
+        "force_entry": "market",
+        "stoploss": "market",
+        "stoploss_on_exchange": false,
+        "stoploss_on_exchange_interval": 60,
+        "stoploss_on_exchange_limit_ratio": 0.99
+    },
+    "order_time_in_force": {
+        "entry": "GTC",
+        "exit": "GTC"
+    },
+    "pairlists": [
+        {
+            "method": "StaticPairList"
+        }
+    ],
+    "freqai": {
+        "enabled": true,
+        "purge_old_models": 2,
+        "train_period_days": 15,
+        "backtest_period_days": 7,
+        "live_retrain_hours": 24,
+        "identifier": "rl_strategy_simple_v1",
+        "continual_learning": true,
+        "write_metrics_to_disk": true,
+        "data_kitchen_thread_count": 2,
+        "feature_parameters": {
+            "include_timeframes": [
+                "5m",
+                "15m"
+            ],
+            "include_corr_pairlist": [
+                "BTC/USDT",
+                "ETH/USDT"
+            ],
+            "label_period_candles": 24,
+            "include_shifted_candles": 2,
+            "weight_factor": 0.9,
+            "principal_component_analysis": false,
+            "indicator_periods_candles": [
+                10,
+                20
+            ],
+            "plot_feature_importances": 0,
+            "noise_standard_deviation": 0.05,
+            "randomize_starting_position": true,
+            "buffer_train_data_candles": 0
+        },
+        "data_split_parameters": {
+            "test_size": 0.25,
+            "shuffle": false,
+            "random_state": 42
+        },
+        "model_training_parameters": {
+            "learning_rate": 0.00025,
+            "gamma": 0.9,
+            "verbose": 1,
+            "eval_cycles": 3,
+            "training_reward_type": "calmar",
+            "model_save_type": "stable_baselines3"
+        },
+        "rl_config": {
+            "train_cycles": 15,
+            "cpu_count": 2,
+            "max_training_drawdown_pct": 0.05,
+            "model_type": "PPO",
+            "policy_type": "MlpPolicy",
+            "policy_kwargs": {
+                "net_arch": [
+                    64,
+                    64
+                ]
+            },
+            "max_trade_duration_candles": 300,
+            "model_reward_parameters": {
+                "rr": 1.5,
+                "profit_aim": 0.025,
+                "win_reward_factor": 2.0
+            },
+            "add_state_info": true,
+            "net_arch": [
+                64,
+                64
+            ],
+            "randomize_startinng_position": true,
+            "model_save_type": "stable_baselines3"
+        }
+    },
+    "bot_name": "FreqAI_RL_Simple_Bot",
+    "force_entry_enable": false,
+    "initial_state": "running",
+    "internals": {
+        "process_throttle_secs": 5,
+        "heartbeat_interval": 60
+    },
+    "telegram": {
+        "enabled": false,
+        "token": "placeholder_token",
+        "chat_id": "placeholder_chat_id",
+        "notification_settings": {
+            "status": "on",
+            "warning": "on",
+            "startup": "on",
+            "entry": "on",
+            "entry_fill": "on",
+            "exit": "on",
+            "exit_fill": "on",
+            "exit_cancel": "on",
+            "protection_trigger": "on",
+            "protection_trigger_global": "on"
+        }
+    },
+    "api_server": {
+        "enabled": true,
+        "listen_ip_address": "127.0.0.1",
+        "listen_port": 8081,
+        "verbosity": "error",
+        "enable_openapi": true,
+        "jwt_secret_key": "your_secret_key_change_this",
+        "CORS_origins": [],
+        "username": "freqtrader",
+        "password": "password123"
+    },
+    "db_url": "sqlite:///tradesv3_simple.sqlite",
+    "user_data_dir": "user_data",
+    "strategy": "FreqAIRLStrategy",
+    "strategy_path": "user_data/strategies/",
+    "freqaimodel": "RLModel",
+    "freqaimodel_path": "user_data/freqaimodels/",
+    "dataformat_ohlcv": "feather",
+    "dataformat_trades": "feather"
+} 
